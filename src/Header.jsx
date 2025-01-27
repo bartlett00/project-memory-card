@@ -1,5 +1,6 @@
 import ScoreBoard from "./Scoreboard";
 
+// eslint-disable-next-line react/prop-types
 export default function Header({ score, highScore }) {
   return (
     <section className="header">

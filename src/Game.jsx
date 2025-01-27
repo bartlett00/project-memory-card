@@ -29,7 +29,7 @@ export default function Game() {
   return (
     <>
       <Header score={score} highScore={highScore} />
-      <Board className="board" handleClickCard={updateScoreboard} />
+      <Board className="board" updateScoreboard={updateScoreboard} />
     </>
   );
 }
