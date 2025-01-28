@@ -4,14 +4,20 @@ import ScoreBoard from "./Scoreboard";
 export default function Header({ score, highScore }) {
   return (
     <section className="header">
-      <div className="title-container">
-        <h1>Pokemon Memory</h1>
-        <h2>
-          Increase your score by clicking a card, click a duplicate, and your
-          score resets!
-        </h2>
+      <div className="title-and-scoreboard">
+        <div className="title-container">
+          <h1>Pokemon Memory</h1>
+          <h2>
+            Increase your score by clicking a card, click a duplicate, and your
+            score resets!
+          </h2>
+        </div>
+        <ScoreBoard
+          className="scoreboard"
+          score={score}
+          highScore={highScore}
+        />
       </div>
-      <ScoreBoard className="scoreboard" score={score} highScore={highScore} />
     </section>
   );
 }

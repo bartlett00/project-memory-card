@@ -5,7 +5,7 @@ import Board from "./Board";
 export default function Game() {
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
-  const [previousId, setPreviousId] = useState(null);
+  const [previousIds, setPreviousIds] = useState([]);
 
   /*
     function that updates score on card click (event)
@@ -14,15 +14,16 @@ export default function Game() {
   function updateScoreboard(cardId) {
     // updates score for each non duplicate card clicked
     // updates high score if current score surpases it
-    if (cardId === previousId) {
+    if (previousIds.includes(cardId)) {
       if (score > highScore) {
         setHighScore(score);
       }
       setScore(0);
-      setPreviousId(null);
+      setPreviousIds([]);
+      console.log("game over");
     } else {
       setScore((score) => score + 1);
-      setPreviousId(cardId);
+      setPreviousIds([...previousIds, cardId]);
     }
   }
 
