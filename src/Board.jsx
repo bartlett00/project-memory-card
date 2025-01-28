@@ -3,10 +3,10 @@ import Card from "./Card";
 import PokedexBtn from "./PokedexBtn";
 
 // eslint-disable-next-line react/prop-types
-export default function Board({ updateScoreboard }) {
-  // Board component makes API call, generates 12 random cards on mount/click
+export default function Board({ updateScoreboard, resetScore }) {
   useEffect(() => {
     generateBoard(pokedex[0], pokedex[1]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [cards, setCards] = useState([]);
@@ -22,7 +22,6 @@ export default function Board({ updateScoreboard }) {
       await fetch(randomMon)
         .then((result) => {
           if (result.ok) {
-            // console.log(result);
             return result.json();
           }
           throw result;
@@ -33,33 +32,35 @@ export default function Board({ updateScoreboard }) {
             monName: data.name,
             sprite: data.sprites.front_default,
           };
-          // console.log(neededInfo);
           cardSet.push(neededInfo);
         });
     }
-    console.log(cardSet);
     setCards(cardSet);
-    // return cardSet;
   }
 
   function handleClick(cardId) {
-    console.log(cardId);
     updateScoreboard(cardId);
     generateBoard(pokedex[0], pokedex[1]);
   }
 
-  //TODO: fix bug causing cards not to rerender on first click
   function changePokedex(pokeGen) {
-    console.log("changePokedex call");
-    setPokedex(pokeGen);
-    generateBoard(pokeGen[0], pokeGen[1]);
+    if (
+      confirm(
+        "Are you sure you want to change pokedex? your score will be reset."
+      )
+    ) {
+      resetScore();
+      setPokedex(pokeGen);
+      generateBoard(pokeGen[0], pokeGen[1]);
+    } else {
+      return;
+    }
   }
 
-  //TODO: write method of setting which generation of pokemon the player wants to play with
   return (
     <div className="gameboard">
+      <h2 className="pick-header">Pick a Pokemon generation:</h2>
       <div className="pokedex-btns">
-        <h2>Pick a Pokemon generation:</h2>
         <PokedexBtn
           text={"Gen I"}
           changePokedex={changePokedex}
